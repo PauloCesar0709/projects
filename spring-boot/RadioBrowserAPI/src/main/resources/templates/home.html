@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estações de Rádio</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header>
+    <!-- Área reservada para elementos de cabeçalho. -->
+</header>
+
+<!-- Conteúdo principal: busca de cidade e resultados das estações. -->
+<main>
+    <div class="search-container">
+
+        <div class="page-subtitle">
+            <p>Radio Browser API</p>
+            <!-- Thymeleaf substitui este conteúdo pela cidade enviada pelo controller. -->
+            <h2 th:text="${city}"></h2>
+        </div>
+
+        <!-- Envia a cidade selecionada por GET para a rota que consulta as estações. -->
+        <form method="get" th:action="@{/home}" class="search-form">
+
+           <div class="select-wrap">
+               <!-- Cada opção representa uma capital; a cidade atual aparece selecionada. -->
+               <select name="city" class="cursor-pointer">
+                   <option value="Aracaju" th:selected="${city == 'Aracaju'}">Aracaju</option>
+                   <option value="Boa Vista" th:selected="${city == 'Boa Vista'}">Boa Vista</option>
+                   <option value="Belo Horizonte" th:selected="${city == 'Belo Horizonte'}">Belo Horizonte</option>
+                   <option value="Belém" th:selected="${city == 'Belém'}">Belém</option>
+                   <option value="Goiânia" th:selected="${city == 'Goiânia'}">Goiânia</option>
+                   <option value="João Pessoa" th:selected="${city == 'João Pessoa'}">João Pessoa</option>
+                   <option value="Macapá" th:selected="${city == 'Macapá'}">Macapá</option>
+                   <option value="Maceió" th:selected="${city == 'Maceió'}">Maceió</option>
+                   <option value="Manaus" th:selected="${city == 'Manaus'}">Manaus</option>
+                   <option value="Natal" th:selected="${city == 'Natal'}">Natal</option>
+                   <option value="Porto Velho" th:selected="${city == 'Porto Velho'}">Porto Velho</option>
+                   <option value="Porto Alegre" th:selected="${city == 'Porto Alegre'}">Porto Alegre</option>
+                   <option value="Recife" th:selected="${city == 'Recife'}">Recife</option>
+                   <option value="Rio Branco" th:selected="${city == 'Rio Branco'}">Rio Branco</option>
+                   <option value="Rio de Janeiro" th:selected="${city == 'Rio de Janeiro'}">Rio de Janeiro</option>
+                   <option value="Salvador" th:selected="${city == 'Salvador'}">Salvador</option>
+                   <option value="São Luís" th:selected="${city == 'São Luís'}">São Luís</option>
+                   <option value="São Paulo" th:selected="${city == 'São Paulo'}">São Paulo</option>
+                   <option value="Curitiba" th:selected="${city == 'Curitiba'}">Curitiba</option>
+                   <option value="Cuiabá" th:selected="${city == 'Cuiabá'}">Cuiabá</option>
+                   <option value="Campo Grande" th:selected="${city == 'Campo Grande'}">Campo Grande</option>
+                   <option value="Fortaleza" th:selected="${city == 'Fortaleza'}">Fortaleza</option>
+                   <option value="Teresina" th:selected="${city == 'Teresina'}">Teresina</option>
+                   <option value="Palmas" th:selected="${city == 'Palmas'}">Palmas</option>
+                   <option value="Vitória" th:selected="${city == 'Vitória'}">Vitória</option>
+                   <option value="Florianópolis" th:selected="${city == 'Florianópolis'}">Florianópolis</option>
+                   <option value="Brasília" th:selected="${city == 'Brasília'}">Brasília</option>
+               </select>
+           </div>
+
+           <!-- Submete o formulário e atualiza a lista para a cidade escolhida. -->
+           <button type="submit">Buscar</button>
+        </form>
+    </div>
+
+   <!-- A tabela apresenta uma linha para cada estação recebida do controller. -->
+   <div class="table-wrapper">
+       <table>
+           <!-- Define a proporção das colunas para a tabela se ajustar à largura disponível. -->
+           <colgroup>
+               <col style="width: 3%"> <!-- ★ -->
+               <col style="width: 3%"> <!-- # -->
+               <col style="width: 8%"> <!-- Favicon -->
+               <col style="width: 11%"> <!-- Nome -->
+               <col style="width: 13%"> <!-- URL -->
+               <col style="width: 10%"> <!-- Tags -->
+               <col style="width: 9%"> <!-- Idioma -->
+               <col style="width: 4%"> <!-- Votos -->
+               <col style="width: 4%"> <!-- Cliques -->
+               <col style="width: 4%"> <!-- Bitrate -->
+               <col style="width: 4%"> <!-- Codec -->
+               <col style="width: 12%"> <!-- Player -->
+           </colgroup>
+           <!-- Cabeçalhos que identificam os dados exibidos em cada coluna. -->
+           <thead>
+               <tr>
+                   <th>★</th>
+                   <th>#</th>
+                   <th>Favicon</th>
+                   <th>Nome</th>
+                   <th>URL</th>
+                   <th>Tags</th>
+                   <th>Idioma</th>
+                   <th>Votos</th>
+                   <th>Cliques</th>
+                   <th>Bitrate</th>
+                   <th>Codec</th>
+                   <th>Player</th>
+               </tr>
+           </thead>
+           <tbody>
+               <!-- Thymeleaf percorre a lista stations e cria uma linha para cada item. -->
+               <tr th:each="station, iterStat : ${stations}">
+                    <td>
+                        <!-- Envia UUID e cidade ao controller para alternar o favorito e voltar à busca. -->
+                        <form method="post" th:action="@{/favorites/toggle}" class="fav-form">
+                        <input type="hidden" name="stationuuid" th:value="${station.stationuuid}" />
+                        <input type="hidden" name="city" th:value="${city}" />
+                        <!-- O botão mostra estrela cheia ou vazia conforme o estado do favorito. -->
+                        <button type="submit"
+                                class="fav-btn"
+                                th:classappend="${station.favorite} ? 'active' : ''"
+                                th:text="${station.favorite} ? '★' : '☆'">
+                        </button>
+                    </form>
+                    </td>
+                   <!-- Mostra a posição da estação na lista, começando em 1. -->
+                   <td th:text="${iterStat.index + 1}"></td>
+                   <td>
+                       <!-- Usa o favicon informado pela estação e aplica imagem alternativa se o carregamento falhar. -->
+                       <img class="favicon" th:src="${station.favicon}" th:alt="Favicon"
+                           onerror="this.onerror=null; this.src='/images/aradio.webp';" />
+                   </td>
+                   <td class="break-word">
+                       <!-- O nome abre a página oficial da estação. -->
+                       <a th:href="${station.homepage}" th:text="${station.name}"></a>
+                   </td>
+                   <!-- Exibe endereço do stream, tags, idioma e métricas fornecidas pela API. -->
+                   <td class="break-word"><a th:href="${station.url}" th:text="${station.url}"></a></td>
+                   <td class="break-word" th:text="${station.tags}"></td>
+                   <td class="break-word" th:text="${station.language}"></td>
+                   <td th:text="${station.votes}"></td>
+                   <td th:text="${station.clickcount}"></td>
+                   <td th:text="${station.bitrate}"></td>
+                   <td th:text="${station.codec}"></td>
+                   <td>
+                       <!-- Player nativo do navegador reproduz o endereço de áudio da estação. -->
+                       <div class="audio-container">
+                           <audio controls>
+                               <source th:src="${station.url}" type="audio/mpeg">
+                               Seu navegador não suporta o elemento audio.
+                           </audio>
+                       </div>
+                   </td>
+               </tr>
+               <!-- Informa que a busca não retornou estações, sem renderizar linhas vazias. -->
+               <tr class="empty-row" th:if="${#lists.isEmpty(stations)}">
+                   <td colspan="12" style="text-align:center;">Nenhuma rádio encontrada para esses filtros.</td>
+               </tr>
+           </tbody>
+       </table>
+   </div>
+</main>
+
+</body>
+
+</html>
