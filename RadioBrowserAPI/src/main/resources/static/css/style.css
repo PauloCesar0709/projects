@@ -1,0 +1,333 @@
+:root {
+    --ink: #14213d;          /* texto principal e cabeçalho da tabela */
+    --muted: #5b6577;        /* texto secundário */
+    --line: #e4e8ef;         /* divisórias */
+    --page: #f3f5f9;         /* fundo da página */
+    --surface: #ffffff;      /* cartões e linhas */
+    --accent: #2456e5;       /* ações e links */
+    --accent-dark: #1b43b8;
+    --star: #f5a524;         /* favoritos */
+    --radius: 12px;
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* ---------- Tipografia ---------- */
+body {
+    margin: 0;
+    font-family: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--page);
+}
+ 
+/* ---------- Links ---------- */
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+ 
+a:hover {
+    text-decoration: underline;
+}
+ 
+/* ---------- Cabeçalho do site ---------- */
+header {
+    background-image: url('../images/radio-browser-image.avif');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 70vh;
+    display: flex;
+    justify-content: flex-end;
+    
+}
+ 
+/* ---------- Conteúdo principal ---------- */
+main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px;
+}
+ 
+/* ---------- Filtro ---------- */
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+ 
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+ 
+.select-wrap {
+    position: relative;
+}
+ 
+.select-wrap select {
+    appearance: none;
+    -webkit-appearance: none; 
+    min-width: 240px;
+    height: 44px;
+    padding: 0 42px 0 16px;
+    font: inherit;
+    color: var(--ink);
+    background-color: var(--surface);
+    /* seta desenhada em SVG, no lugar da seta nativa do navegador */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%235b6577' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    border: 1px solid #cdd4e0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+ 
+.select-wrap select:hover {
+    border-color: #a9b4c8;
+}
+ 
+.select-wrap select:focus-visible,
+.search-form button:focus-visible,
+.fav-btn:focus-visible {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(36, 86, 229, 0.25);
+}
+ 
+.search-form button {
+    height: 44px;
+    padding: 0 24px;
+    font: inherit;
+    font-weight: 500;
+    color: #fff;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+ 
+.search-form button:hover {
+    background: var(--accent-dark);
+}
+ 
+/* ---------- Título da seção ---------- */
+.page-subtitle {
+    margin-bottom: 20px;
+}
+ 
+.page-subtitle p {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--muted);
+}
+ 
+.page-subtitle h2 {
+    margin: 0;
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+ 
+/* ---------- Tabela ---------- */
+.table-wrapper {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 2px rgba(20, 33, 61, 0.06);
+    overflow-x: auto;
+}
+ 
+table {
+    width: 100%;
+    min-width: 1100px;       /* abaixo disso, a tabela rola dentro do cartão */
+    table-layout: fixed;     /* respeita o <colgroup> */
+    border-collapse: collapse;
+}
+ 
+thead th {
+    padding: 14px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-align: left;
+    color: #dfe5f2;
+    background: var(--ink);
+    white-space: nowrap;
+}
+ 
+tbody td {
+    padding: 14px 12px;
+    vertical-align: middle;
+    border-top: 1px solid var(--line);
+}
+ 
+tbody tr:first-child td {
+    border-top: none;
+}
+ 
+tbody tr {
+    transition: background 0.12s;
+}
+ 
+tbody tr:hover {
+    background: #f6f8fc;
+}
+ 
+/* Colunas: ★ e # centralizadas; votos, cliques e bitrate alinhados à direita */
+th:nth-child(-n+2),
+td:nth-child(-n+2) {
+    text-align: center;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+ 
+th:nth-child(n+8):nth-child(-n+10),
+td:nth-child(n+8):nth-child(-n+10) {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+ 
+td:nth-child(2) {
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+ 
+/* Nome da estação em destaque */
+td:nth-child(4) a {
+    font-weight: 500;
+    color: var(--ink);
+}
+ 
+td:nth-child(4) a:hover {
+    color: var(--accent);
+}
+ 
+/* URL e tags: texto secundário, limitado a 2 linhas */
+td:nth-child(5),
+td:nth-child(6),
+td:nth-child(7) {
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+ 
+td:nth-child(5) a {
+    color: var(--muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+}
+ 
+td:nth-child(5) a:hover {
+    color: var(--accent);
+}
+ 
+.break-word {
+    overflow-wrap: anywhere;
+}
+ 
+/* ---------- Favicon ---------- */
+.favicon {
+    display: block;
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 8px;
+    background: var(--page);
+    border: 1px solid var(--line);
+}
+ 
+/* ---------- Botão de favorito ---------- */
+.fav-form {
+    margin: 0;
+}
+ 
+.fav-btn {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    font-size: 1.2rem;
+    line-height: 1;
+    color: #a3adbf;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s, transform 0.1s;
+}
+ 
+.fav-btn:hover {
+    color: var(--star);
+    background: #fff6e3;
+}
+ 
+.fav-btn:active {
+    transform: scale(0.92);
+}
+ 
+.fav-btn.active {
+    color: var(--star);
+}
+ 
+/* Linha de estação favorita ganha uma marca discreta à esquerda */
+tbody tr:has(.fav-btn.active) td:first-child {
+    box-shadow: inset 3px 0 0 var(--star);
+}
+ 
+/* ---------- Player ---------- */
+.audio-container {
+    width: 100%;
+}
+ 
+audio {
+    display: block;
+    width: 100%;
+    height: 40px;
+}
+ 
+/* ---------- Estado vazio ---------- */
+.empty-row td {
+    padding: 48px 16px;
+    text-align: center;
+    color: var(--muted);
+}
+ 
+/* ---------- Telas pequenas ---------- */
+@media (max-width: 700px) {
+    header,
+    main {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+ 
+    .search-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+ 
+    .select-wrap select {
+        width: 100%;
+    }
+ 
+    .page-title h2 {
+        font-size: 1.75rem;
+    }
+}
+
+
+
+
+
