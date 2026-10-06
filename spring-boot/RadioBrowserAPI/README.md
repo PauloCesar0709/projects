@@ -27,7 +27,42 @@ não exigem banco de dados ou arquivo de persistência.
 - **Ordenação**: as estações são ordenadas por número de votos (decrescente); países e estados são ordenados alfabeticamente conforme as regras do português do Brasil
 - **Player embutido**: reprodução das rádios diretamente na página via tag `<audio>` do HTML5.
 
-## Captura de tela
+## Capturas de tela
 
 - **Home**: Exibe as rádios recuperadas de acordo com o estado selecionado.
 
+ ![Home](https://github.com/PauloCesar0709/projects/blob/master/spring-boot/RadioBrowserAPI/images/Captura%20de%20Tela%20-%20RadioBrowserAPI1.png) |
+|:-------------------------------:|
+|         Home          |
+
+| ![Home](https://github.com/PauloCesar0709/projects/blob/master/spring-boot/RadioBrowserAPI/images/Captura%20de%20Tela%20-%20RadioBrowserAPI2.png) |
+|:---------------------------------:|
+|         Home          |
+
+## Dependências
+
+O projeto utiliza a seguinte dependência em seu `pom.xml`:
+
+```
+    <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+```
